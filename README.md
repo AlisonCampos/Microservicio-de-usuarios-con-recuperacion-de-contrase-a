@@ -1,70 +1,78 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Microservicio de Usuarios con Recuperación de Contraseña
 
-## Available Scripts
+Este proyecto es una aplicación frontend desarrollada con **React** y **Material UI**, que permite gestionar el registro de usuarios, recuperar contraseñas mediante preguntas de seguridad y visualizar una lista de usuarios registrados. Se conecta a un backend a través de una API REST en `http://localhost:3001/api/auth`.
 
-In the project directory, you can run:
+## 🧩 Funcionalidades principales
 
-### `npm start`
+- ✅ Registro de usuario con nombre de usuario, contraseña, pregunta y respuesta de seguridad.
+- 🔐 Recuperación de contraseña utilizando la pregunta de seguridad previamente establecida.
+- 📋 Visualización de usuarios registrados junto con su pregunta de seguridad.
+- 🎨 Diseño responsivo y atractivo gracias a Material UI.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📁 Estructura del proyecto
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+src/
+│
+├── api.js                 # Funciones para consumir la API
+├── App.js                 # Componente principal de la aplicación
+└── components/
+    ├── Layout.js          # Componente de diseño general (AppBar + contenedor)
+    ├── Register.js        # Formulario de registro de nuevos usuarios
+    ├── ForgotPassword.js  # Recuperación de contraseña con pregunta de seguridad
+    └── UsersList.js       # Listado de usuarios registrados
+```
 
-### `npm test`
+## 🚀 Instalación y ejecución
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clona este repositorio:
 
-### `npm run build`
+```bash
+git clone https://github.com/tu-usuario/microservicio-usuarios.git
+cd microservicio-usuarios
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Instala las dependencias:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Asegúrate de que el backend esté corriendo en `http://localhost:3001`.
 
-### `npm run eject`
+4. Ejecuta la aplicación en desarrollo:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+La aplicación se abrirá automáticamente en tu navegador en `http://localhost:3000`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🌐 Endpoints esperados del backend
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+La aplicación espera que el backend tenga disponibles los siguientes endpoints:
 
-## Learn More
+| Método | Endpoint                          | Descripción                                 |
+|--------|-----------------------------------|---------------------------------------------|
+| POST   | `/api/auth/register`              | Registra un nuevo usuario                   |
+| POST   | `/api/auth/get-security-question` | Obtiene la pregunta de seguridad por usuario|
+| POST   | `/api/auth/forgot-password`       | Cambia la contraseña tras validar respuesta |
+| GET    | `/api/auth/users`                 | Retorna la lista de usuarios registrados    |
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🛠️ Tecnologías utilizadas
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [React](https://reactjs.org/)
+- [Material UI](https://mui.com/)
+- [JavaScript (ES6+)](https://developer.mozilla.org/es/docs/Web/JavaScript)
+- [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 
-### Code Splitting
+## 📌 Notas
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Este proyecto es solo el frontend. 
+- El backend debe correr en el puerto 3001 o puedes ajustar la constante `API_URL` en el archivo `api.js`.
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📄 Licencia
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Este proyecto está bajo la licencia MIT. Puedes hacer lo que desees con él, siempre y cuando mantengas los créditos correspondientes.
