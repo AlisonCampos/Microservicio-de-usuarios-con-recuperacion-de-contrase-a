@@ -3,58 +3,84 @@ import Layout from "./components/Layout";
 import Register from "./components/Register";
 import ForgotPassword from "./components/ForgotPassword";
 import UsersList from "./components/UsersList";
-import { CssBaseline, Tabs, Tab, Box } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import LockResetIcon from "@mui/icons-material/LockReset";
-import GroupIcon from "@mui/icons-material/Group";
+import Login from "./components/Login";
+import { CssBaseline, AppBar, Toolbar, Typography, Button  } from "@mui/material";
 import { getUsers } from "./api";
 
 function App() {
-  const [tab, setTab] = useState(0);
   const [users, setUsers] = useState([]);
+  const [auth, setAuth] = useState(null); // usuario autenticado
+  const [view, setView] = useState("register"); // register, login, forgot, users
 
-  const handleChange = (event, newValue) => {
-    setTab(newValue);
-  };
-
-  // Carga inicial de usuarios
   useEffect(() => {
-    loadUsers();
-  }, []);
+    if (auth) loadUsers();
+  }, [auth]);
 
   const loadUsers = async () => {
     const data = await getUsers();
-    if (Array.isArray(data)) {
-      setUsers(data);
-    }
+    if (Array.isArray(data)) setUsers(data);
+  };
+
+  const handleLogout = () => {
+    setAuth(null);
+    setView("login");
   };
 
   return (
     <>
       <CssBaseline />
       <Layout>
-        <Tabs
-          value={tab}
-          onChange={handleChange}
-          centered
-          textColor="primary"
-          indicatorColor="primary"
-          sx={{ mb: 3 }}
-        >
-          <Tab icon={<PersonAddIcon />} label="Registro" />
-          <Tab icon={<LockResetIcon />} label="Recuperar Contraseña" />
-          <Tab icon={<GroupIcon />} label="Usuarios" />
-        </Tabs>
-
-        <Box hidden={tab !== 0}>
-          <Register setUsers={setUsers} />
-        </Box>
-        <Box hidden={tab !== 1}>
-          <ForgotPassword />
-        </Box>
-        <Box hidden={tab !== 2}>
+        {auth && (
+          <AppBar position="static" color="default" sx={{ mb: 3 }}>
+            <Toolbar>
+              <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                Bienvenido, {auth.username}
+              </Typography>
+              <Button color="inherit" onClick={handleLogout}>
+                Salir
+              </Button>
+            </Toolbar>
+          </AppBar>
+        )}
+        {!auth ? (
+          <>
+            {view === "register" && (
+              <>
+                <Register setUsers={setUsers} />
+                <Button
+                  variant="text"
+                  sx={{ mt: 2 }}
+                  onClick={() => setView("login")}
+                >
+                  ¿Ya tienes cuenta? Inicia sesión
+                </Button>
+              </>
+            )}
+            {view === "login" && (
+              <Login
+                onLogin={user => {
+                  setAuth(user);
+                  setView("users");
+                }}
+                goToForgot={() => setView("forgot")}
+              />
+            )}
+            {view === "forgot" && (
+              <>
+                <ForgotPassword />
+                <Button
+                  variant="text"
+                  sx={{ mt: 2 }}
+                  onClick={() => setView("login")}
+                >
+                  Volver al login
+                </Button>
+              </>
+            )}
+          </>
+        ) : (
           <UsersList users={users} />
-        </Box>
+        )}
       </Layout>
     </>
   );
